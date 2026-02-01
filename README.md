@@ -4,15 +4,21 @@ Extensão do Chrome para personalizar a interface do **Google Gemini** com contr
 
 ---
 
-## 📋 Funcionalidades
+## � Funcionalidades
 
 ### 🎛️ Seletor de Modelos Rápido
+
+![Seletor de Modelos](screenshots/buttonsPreview.png)
+
 - Botões de acesso rápido para alternar entre os modelos do Gemini:
   - ⚡ **Rápido** - Respostas mais velozes
   - 🧠 **Raciocínio** - Melhor para tarefas complexas
   - 💎 **Pro** - Modelo mais avançado
 
 ### 🔒 Controles de Privacidade (Blur/Censura)
+
+![Controles de Privacidade](screenshots/blurPreview.png)
+
 Oculta seções da sidebar com efeito de blur para maior privacidade:
 
 | Seção | Descrição |
@@ -50,6 +56,10 @@ geminiExtension/
 ├── popup.html         # Interface do popup de configurações
 ├── popup.js           # Lógica do popup
 ├── README.md          # Este arquivo
+├── screenshots/       # Imagens de preview da extensão
+│   ├── blurPreview.png
+│   ├── buttonsPreview.png
+│   └── modalPreview.png
 └── docs/
     └── GEMINI_DOM_STRUCTURE.md  # Documentação da estrutura HTML do Gemini
 ```
@@ -57,6 +67,8 @@ geminiExtension/
 ---
 
 ## ⚙️ Configurações
+
+![Popup de Configurações](screenshots/modalPreview.png)
 
 Clique no ícone da extensão para acessar as configurações:
 
