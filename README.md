@@ -90,6 +90,8 @@ Clique no ícone da extensão para acessar as configurações:
 | Ocultar Gems | Aplica blur na seção "Gems" | ✅ Ativo |
 | Ocultar Histórico | Aplica blur no histórico de conversas | ✅ Ativo |
 | Limitar a 5 | Mostra apenas 5 conversas, blur nas demais | ✅ Ativo |
+| Exclusão Rápida | Botão de lixeira para deletar sem confirmação | ✅ Ativo |
+| Menu Sempre Visível | Mantém os 3 pontos sempre visíveis | ✅ Ativo |
 
 ---
 
