@@ -1,0 +1,177 @@
+/* ============ CONTROLES INJETADOS ============ */
+
+.gemini-history-controls {
+  display: inline-flex;
+  gap: 2px;
+  vertical-align: middle;
+  flex-shrink: 0;
+  margin-left: 8px;
+  /* Distância do texto */
+}
+
+.gemini-history-btn {
+  background: transparent;
+  border: none;
+  color: #8e918f;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.gemini-history-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e3e3e3;
+}
+
+.gemini-history-btn.active {
+  color: #c3eedf;
+  background: rgba(195, 238, 223, 0.1);
+}
+
+.gemini-history-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* ============ CENSURA DAS SEÇÕES (BLUR) ============ */
+/* Usamos blur ao invés de display:none para manter o lazy loading funcionando */
+
+/* Estilo base de censura */
+.gemini-censored {
+  filter: blur(8px) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  opacity: 0.6 !important;
+  transition: filter 0.3s ease, opacity 0.3s ease !important;
+}
+
+/* 1. HISTÓRICO - Ocultar completamente (apenas a lista, não o título) */
+body.gemini-history-hidden .conversation-items-container {
+  filter: blur(10px) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  opacity: 0.3 !important;
+  max-height: 80px !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+}
+
+/* 1. HISTÓRICO - Limitar (blur nos itens após o 5º) */
+/* Cada conversa tem seu próprio .conversation-items-container, então selecionamos a partir do 6º container */
+body.gemini-history-limited .conversations-container>.conversation-items-container:nth-child(n+6) {
+  filter: blur(8px) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  opacity: 0.4 !important;
+  transition: all 0.3s ease !important;
+}
+
+/* 2. MEUS ITENS */
+body.gemini-my-items-hidden my-stuff-recents-preview {
+  filter: blur(10px) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  opacity: 0.3 !important;
+  max-height: 80px !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+}
+
+/* 3. GEMS */
+body.gemini-gems-hidden .gemini-gems-list-container {
+  filter: blur(10px) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  opacity: 0.3 !important;
+  max-height: 80px !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Ajustes específicos para botões de injeção */
+.gemini-my-items-controls,
+.gemini-gems-controls {
+  margin-left: 8px;
+  /* Texto --- 8px --- Icone */
+  z-index: 100;
+  position: relative;
+  flex-shrink: 0;
+}
+
+
+/* ============ BASE EXTENSÃO ============ */
+body.gemini-ext-enabled .gemini-model-switcher-container {
+  display: flex !important;
+  gap: 8px;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.gemini-model-switcher-container {
+  display: none;
+}
+
+body.gemini-ext-enabled .gemini-model-btn {
+  background: transparent;
+  border: 1px solid #444746;
+  border-radius: 50%;
+  color: #b3b3b3;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+body.gemini-ext-enabled .gemini-model-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #e3e3e3;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+body.gemini-ext-enabled .gemini-model-btn.active {
+  background: transparent;
+  color: #c3eedf;
+  border: 2px solid #c3eedf;
+  box-shadow: 0 0 12px rgba(195, 238, 223, 0.15);
+}
+
+body.gemini-ext-enabled .gemini-model-btn:active {
+  transform: scale(0.95);
+}
+
+body.gemini-ext-enabled .input-area-switch {
+  display: none !important;
+}
+
+/* Esconde apenas o botão de enviar, não o de stop */
+/* O botão de stop tem o ícone 'stop' enquanto o de enviar tem 'send' */
+body.gemini-ext-enabled .gemini-hidden-send-button:has([data-mat-icon-name="send"]) {
+  display: none !important;
+}
+
+/* Garante que o botão de stop permaneça visível */
+body.gemini-ext-enabled .gemini-hidden-send-button:has([data-mat-icon-name="stop"]),
+body.gemini-ext-enabled button:has([data-mat-icon-name="stop"]) {
+  display: flex !important;
+}
+
+body.gemini-ext-enabled .cdk-overlay-pane:has(.gds-mode-switch-menu),
+body.gemini-ext-enabled .gds-mode-switch-menu {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
