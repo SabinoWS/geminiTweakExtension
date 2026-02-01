@@ -34,6 +34,16 @@ Oculta seções da sidebar com efeito de blur para maior privacidade:
 
 > **Nota:** Usamos blur ao invés de `display: none` para manter o lazy loading do Gemini funcionando corretamente.
 
+### 🗑️ Exclusão Rápida de Conversas
+
+![Exclusão Rápida](screenshots/fastDeletePreview.png)
+
+- Adiciona um **botão de lixeira** ao lado de cada conversa.
+- Permite excluir conversas rapidamente sem confirmação manual (o fluxo é automatizado).
+- **Menu sempre visível**: Tanto a lixeira quanto o menu de 3 pontos ficam fixos, facilitando o acesso.
+- Layout adaptativo que evita sobreposição do texto.
+- Cores de ícones adaptadas para tema Claro e Escuro.
+
 ---
 
 ## 🚀 Instalação
@@ -59,7 +69,8 @@ geminiExtension/
 ├── screenshots/       # Imagens de preview da extensão
 │   ├── blurPreview.png
 │   ├── buttonsPreview.png
-│   └── modalPreview.png
+│   ├── modalPreview.png
+│   └── fastDeletePreview.png
 └── docs/
     └── GEMINI_DOM_STRUCTURE.md  # Documentação da estrutura HTML do Gemini
 ```
@@ -91,6 +102,12 @@ Clique no ícone da extensão para acessar as configurações:
 ---
 
 ## 📝 Changelog
+
+### v1.4 (2026-02-01)
+- ✨ Adicionada **Exclusão Rápida** de conversas (lixeira)
+- 🎨 Menu de conversas (3 pontos) agora fica **sempre visível**
+- 🎨 Ícones com cores adaptativas automatica para temas Claro e Escuro
+- 🐛 Ajustes de layout para evitar sobreposição de texto
 
 ### v1.3 (2026-02-01)
 - ✨ Renomeado para "Gemini Tweak Extension"

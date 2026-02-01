@@ -175,3 +175,129 @@ body.gemini-ext-enabled .gds-mode-switch-menu {
   pointer-events: none !important;
   visibility: hidden !important;
 }
+
+/* ============ BOTÃO DE EXCLUSÃO RÁPIDA ============ */
+
+/* Garante espaço para os botões e evita sobreposição de texto */
+.conversation-items-container a.conversation,
+.conversation-items-container a[data-test-id="conversation"] {
+  padding-right: 70px !important;
+  /* Espaço para Lixeira (24px) + Menu (32px) + Margens */
+}
+
+/* Container para o botão de exclusão */
+.gemini-quick-delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+
+  /* Posicionamento */
+  position: absolute;
+  right: 36px;
+  /* Ao lado do menu de 3 pontos */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+
+  /* Visibilidade Permanente */
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Hover na lixeira */
+.gemini-quick-delete-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  color: #ea4335 !important;
+  background: rgba(234, 67, 53, 0.1);
+}
+
+.gemini-quick-delete-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.gemini-quick-delete-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Carregamento */
+.gemini-quick-delete-btn.deleting {
+  animation: gemini-delete-spin 0.8s linear infinite;
+  color: #ea4335 !important;
+  cursor: wait;
+}
+
+@keyframes gemini-delete-spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* ============ TEMAS E CONTRASTE (Cores Adaptativas) ============ */
+
+/* Default (Fallback) */
+.gemini-history-btn,
+.gemini-quick-delete-btn {
+  color: #8e918f;
+}
+
+/* TEMA CLARO (Light Mode) */
+body.light-theme .gemini-history-btn,
+body.light-theme .gemini-quick-delete-btn {
+  color: #444746;
+  /* Cinza Escuro para fundo Branco */
+}
+
+body.light-theme .gemini-history-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #1f1f1f;
+}
+
+/* TEMA ESCURO (Dark Mode) */
+body.dark-theme .gemini-history-btn,
+body.dark-theme .gemini-quick-delete-btn {
+  color: #e3e3e3;
+  /* Cinza Claro para fundo Preto */
+}
+
+body.dark-theme .gemini-history-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* FORÇA O BOTÃO DE MENU DE 3 PONTOS A APARECER (Se a feature estiver ativa) */
+body.gemini-always-show-menu .conversation-items-container .conversation-actions-menu-button,
+body.gemini-always-show-menu .conversation-items-container button[data-test-id="actions-menu-button"],
+body.gemini-always-show-menu .conversation-items-container button[aria-label*="menu"],
+body.gemini-always-show-menu .conversation-items-container button[aria-label*="Mais"],
+body.gemini-always-show-menu .conversation-items-container button[aria-label*="More"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  display: flex !important;
+  z-index: 101;
+}
+
+/* Wrapper auxiliar */
+.gemini-quick-delete-wrapper {
+  display: contents;
+}
+
+/* Garante que o container da conversa tenha position relative */
+.conversation-items-container {
+  position: relative !important;
+}

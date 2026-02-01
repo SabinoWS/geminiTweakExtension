@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleHistoryLimitFeature = document.getElementById('toggleHistoryLimitFeature');
     const toggleMyItemsFeature = document.getElementById('toggleMyItemsFeature');
     const toggleGemsFeature = document.getElementById('toggleGemsFeature');
+    const toggleQuickDelete = document.getElementById('toggleQuickDelete');
+    const toggleAlwaysShowMenu = document.getElementById('toggleAlwaysShowMenu');
 
     // Carregar estado salvo
     // Default = true (!== false)
@@ -12,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'featureHistoryHide',
         'featureHistoryLimit',
         'featureMyItemsHide',
-        'featureGemsHide'
+        'featureGemsHide',
+        'featureQuickDelete',
+        'featureAlwaysShowMenu'
     ], (result) => {
         toggleExt.checked = result.enabled !== false;
 
@@ -20,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleHistoryLimitFeature.checked = result.featureHistoryLimit !== false;
         toggleMyItemsFeature.checked = result.featureMyItemsHide !== false;
         toggleGemsFeature.checked = result.featureGemsHide !== false;
+        toggleQuickDelete.checked = result.featureQuickDelete !== false;
+        toggleAlwaysShowMenu.checked = result.featureAlwaysShowMenu !== false;
     });
 
     // Salvar Toggle Extensão
@@ -42,5 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     toggleGemsFeature.addEventListener('change', () => {
         chrome.storage.local.set({ featureGemsHide: toggleGemsFeature.checked });
+    });
+
+    toggleQuickDelete.addEventListener('change', () => {
+        chrome.storage.local.set({ featureQuickDelete: toggleQuickDelete.checked });
+    });
+
+    toggleAlwaysShowMenu.addEventListener('change', () => {
+        chrome.storage.local.set({ featureAlwaysShowMenu: toggleAlwaysShowMenu.checked });
     });
 });

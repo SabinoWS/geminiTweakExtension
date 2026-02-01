@@ -15,6 +15,8 @@ let featureHistoryEnabled = false;
 let featureHistoryLimitEnabled = false;
 let featureMyItemsEnabled = false;
 let featureGemsEnabled = false;
+let featureQuickDeleteEnabled = true;
+let featureAlwaysShowMenuEnabled = true;
 
 let stateHistoryHidden = true;
 let stateHistoryLimited = true; // Default limited to 5
@@ -22,13 +24,23 @@ let stateMyItemsHidden = true;
 let stateGemsHidden = true;
 
 // Inicialização
-chrome.storage.local.get(['enabled', 'featureHistoryHide', 'featureHistoryLimit', 'featureMyItemsHide', 'featureGemsHide'], (result) => {
+chrome.storage.local.get([
+    'enabled',
+    'featureHistoryHide',
+    'featureHistoryLimit',
+    'featureMyItemsHide',
+    'featureGemsHide',
+    'featureQuickDelete',
+    'featureAlwaysShowMenu'
+], (result) => {
     isExtensionEnabled = result.enabled !== false;
 
     featureHistoryEnabled = result.featureHistoryHide !== false;
     featureHistoryLimitEnabled = result.featureHistoryLimit !== false;
     featureMyItemsEnabled = result.featureMyItemsHide !== false;
     featureGemsEnabled = result.featureGemsHide !== false;
+    featureQuickDeleteEnabled = result.featureQuickDelete !== false;
+    featureAlwaysShowMenuEnabled = result.featureAlwaysShowMenu !== false;
 
     updateBodyClass('gemini-ext-enabled', isExtensionEnabled);
     if (isExtensionEnabled) {
@@ -111,6 +123,22 @@ chrome.storage.onChanged.addListener((changes) => {
             injectGemsControls();
         }
     }
+
+    // Feature: Quick Delete
+    if (changes.featureQuickDelete) {
+        featureQuickDeleteEnabled = changes.featureQuickDelete.newValue;
+        if (featureQuickDeleteEnabled) {
+            injectQuickDeleteButtons();
+        } else {
+            document.querySelectorAll('.gemini-quick-delete-btn').forEach(btn => btn.remove());
+        }
+    }
+
+    // Feature: Always Show Menu
+    if (changes.featureAlwaysShowMenu) {
+        featureAlwaysShowMenuEnabled = changes.featureAlwaysShowMenu.newValue;
+        applyVisualOneShot();
+    }
 });
 
 function applyVisualOneShot() {
@@ -145,6 +173,13 @@ function applyVisualOneShot() {
         else document.body.classList.remove('gemini-gems-hidden');
     } else {
         document.body.classList.remove('gemini-gems-hidden');
+    }
+
+    // Always Show Menu
+    if (featureAlwaysShowMenuEnabled) {
+        document.body.classList.add('gemini-always-show-menu');
+    } else {
+        document.body.classList.remove('gemini-always-show-menu');
     }
 
     updateButtonStates();
@@ -460,6 +495,7 @@ const observer = new MutationObserver((mutations) => {
     injectHistoryControls();
     injectMyItemsControls();
     injectGemsControls();
+    injectQuickDeleteButtons();
 });
 
 observer.observe(document.body, { childList: true, subtree: true });
@@ -512,3 +548,132 @@ function highlightModelButton(targetId) {
     });
 }
 
+// ============ EXCLUSÃO RÁPIDA DE CONVERSAS ============ //
+
+const TRASH_ICON_SVG = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
+const LOADING_ICON_SVG = `<svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>`;
+
+function injectQuickDeleteButtons() {
+    if (!featureQuickDeleteEnabled) return;
+
+    // Seleciona todos os containers de conversas que ainda não têm o botão de exclusão
+    const conversationContainers = document.querySelectorAll('.conversation-items-container');
+
+    conversationContainers.forEach(container => {
+        // Verifica se já injetamos o botão neste container
+        if (container.querySelector('.gemini-quick-delete-btn')) return;
+
+        // Encontra o link da conversa dentro do container
+        const conversationLink = container.querySelector('a.conversation');
+        if (!conversationLink) return;
+
+        // Cria o botão de exclusão rápida
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'gemini-quick-delete-btn';
+        deleteBtn.innerHTML = TRASH_ICON_SVG;
+        deleteBtn.title = 'Excluir conversa rapidamente';
+
+        // Handler de clique para exclusão rápida
+        deleteBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Evitar cliques múltiplos
+            if (deleteBtn.classList.contains('deleting')) return;
+
+            // Feedback visual de carregamento
+            deleteBtn.classList.add('deleting');
+            deleteBtn.innerHTML = LOADING_ICON_SVG;
+
+            try {
+                await executeQuickDelete(container, conversationLink);
+            } catch (error) {
+                console.error('Erro ao excluir conversa:', error);
+                // Restaurar botão em caso de erro
+                deleteBtn.classList.remove('deleting');
+                deleteBtn.innerHTML = TRASH_ICON_SVG;
+            }
+        });
+
+        // Adiciona o botão ao container
+        container.appendChild(deleteBtn);
+    });
+}
+
+async function executeQuickDelete(container, conversationLink) {
+    // Passo 1: Disparar hover para garantir que o menu esteja disponível
+    conversationLink.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+
+    await sleep(100);
+
+    // Passo 2: Encontrar e clicar no botão de menu (3 pontos)
+    const menuButton = container.querySelector('button.conversation-actions-menu-button') ||
+        container.querySelector('button[data-test-id="actions-menu-button"]') ||
+        container.querySelector('button[aria-label*="menu"]');
+
+    if (!menuButton) {
+        throw new Error('Botão de menu não encontrado');
+    }
+
+    menuButton.click();
+
+    await sleep(200);
+
+    // Passo 3: Encontrar e clicar no botão "Excluir" no menu dropdown
+    const deleteMenuItem = await waitForElement(() => {
+        const menuItems = document.querySelectorAll('button[role="menuitem"]');
+        for (const item of menuItems) {
+            if (item.innerText.includes('Excluir') || item.innerText.includes('Delete')) {
+                return item;
+            }
+        }
+        return null;
+    }, 2000);
+
+    if (!deleteMenuItem) {
+        // Fechar menu se não encontrou a opção
+        document.body.click();
+        throw new Error('Opção de excluir não encontrada no menu');
+    }
+
+    deleteMenuItem.click();
+
+    await sleep(300);
+
+    // Passo 4: Encontrar e clicar no botão "Excluir" do modal de confirmação
+    const confirmButton = await waitForElement(() => {
+        const dialogButtons = document.querySelectorAll('mat-dialog-container button, .mat-mdc-dialog-container button, [role="dialog"] button');
+        for (const btn of dialogButtons) {
+            const text = btn.innerText.trim().toLowerCase();
+            if (text === 'excluir' || text === 'delete') {
+                return btn;
+            }
+        }
+        return null;
+    }, 2000);
+
+    if (!confirmButton) {
+        // Tentar fechar o diálogo
+        const cancelBtn = document.querySelector('mat-dialog-container button, .mat-mdc-dialog-container button');
+        if (cancelBtn) cancelBtn.click();
+        throw new Error('Botão de confirmação não encontrado');
+    }
+
+    confirmButton.click();
+
+    // Sucesso - o container será removido automaticamente pelo Gemini
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function waitForElement(finder, timeout = 2000) {
+    const startTime = Date.now();
+    while (Date.now() - startTime < timeout) {
+        const element = finder();
+        if (element) return element;
+        await sleep(50);
+    }
+    return null;
+}
