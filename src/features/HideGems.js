@@ -11,7 +11,7 @@ function addGemsControls() {
     if (gemsTextNode) {
         const parent = gemsTextNode.parentElement;
 
-        // Verifica se já injetamos (no parent ou siblings)
+        // Verifica se já adicionamos (no parent ou siblings)
         if (parent.querySelector('.gemini-gems-controls') ||
             (parent.nextElementSibling && parent.nextElementSibling.classList.contains('gemini-gems-controls'))) {
             return;

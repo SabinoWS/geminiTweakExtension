@@ -1,4 +1,4 @@
-/* ============ CONTROLES INJETADOS ============ */
+/* ============ CONTROLES ALTERADOS ============ */
 
 .gemini-history-controls {
   display: inline-flex;
@@ -76,27 +76,15 @@ body.gemini-history-limited .conversations-container>.conversation-items-contain
 
 /* 2. MEUS ITENS */
 body.gemini-my-items-hidden my-stuff-recents-preview {
-  filter: blur(10px) !important;
-  pointer-events: none !important;
-  user-select: none !important;
-  opacity: 0.3 !important;
-  max-height: 80px !important;
-  overflow: hidden !important;
-  transition: all 0.3s ease !important;
+  display: none !important;
 }
 
 /* 3. GEMS */
 body.gemini-gems-hidden .gemini-gems-list-container {
-  filter: blur(10px) !important;
-  pointer-events: none !important;
-  user-select: none !important;
-  opacity: 0.3 !important;
-  max-height: 80px !important;
-  overflow: hidden !important;
-  transition: all 0.3s ease !important;
+  display: none !important;
 }
 
-/* Ajustes específicos para botões de injeção */
+/* Ajustes específicos para botões */
 .gemini-my-items-controls,
 .gemini-gems-controls {
   margin-left: 8px;
@@ -161,21 +149,22 @@ body.gemini-ext-enabled .input-area-switch {
 body.gemini-ext-enabled.gemini-hide-greeting h1.gds-headline-s,
 body.gemini-ext-enabled.gemini-hide-greeting .primary-message-visible,
 body.gemini-ext-enabled.gemini-hide-greeting vkb-greeting {
-    display: none !important;
+  display: none !important;
 }
 
 body.gemini-ext-enabled.gemini-hide-welcome h1.gds-display-s,
 body.gemini-ext-enabled.gemini-hide-welcome .message-text,
 body.gemini-ext-enabled.gemini-hide-welcome .subtitle {
-    display: none !important;
+  display: none !important;
 }
 
 body.gemini-ext-enabled.gemini-hide-prompts .card-zero-state,
 body.gemini-ext-enabled.gemini-hide-prompts intent-card,
 body.gemini-ext-enabled.gemini-hide-prompts .cards-container,
 body.gemini-ext-enabled.gemini-hide-prompts zero-state-suggestions {
-    display: none !important;
+  display: none !important;
 }
+
 /* Esconde apenas o botão de enviar, não o de stop */
 /* O botão de stop tem o ícone 'stop' enquanto o de enviar tem 'send' */
 body.gemini-ext-enabled .gemini-hidden-send-button:has([data-mat-icon-name="send"]) {

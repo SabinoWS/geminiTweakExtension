@@ -10,7 +10,7 @@ function addDeleteChatButtons() {
     const conversationContainers = ChatList.getConversationContainers();
 
     conversationContainers.forEach(container => {
-        // Verifica se já injetamos o botão neste container
+        // Verifica se já adicionamos o botão neste container
         if (container.querySelector('.gemini-quick-delete-btn')) return;
 
         // Encontra o link da conversa usando PageObject

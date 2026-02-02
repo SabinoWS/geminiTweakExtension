@@ -15,6 +15,8 @@ Extensão do Chrome para personalizar a interface do **Google Gemini** com contr
   - 🧠 **Raciocínio** - Melhor para tarefas complexas
   - 💎 **Pro** - Modelo mais avançado
 
+> Modelos são acessíveis diretamente por botões (sem menu dropdown) e o status do último modelo utilizado é salvo e restaurado automaticamente ao retornar à página.
+
 ### 🔒 Controles de Privacidade (Blur/Censura)
 
 ![Controles de Privacidade](screenshots/blurPreview.png)
@@ -41,7 +43,6 @@ Oculta seções da sidebar com efeito de blur para maior privacidade:
 - Adiciona um **botão de lixeira** ao lado de cada conversa.
 - Permite excluir conversas rapidamente sem confirmação manual (o fluxo é automatizado).
 - **Menu sempre visível**: Tanto a lixeira quanto o menu de 3 pontos ficam fixos, facilitando o acesso.
-- Layout adaptativo que evita sobreposição do texto.
 - Cores de ícones adaptadas para tema Claro e Escuro.
 
 ---
@@ -61,18 +62,18 @@ Oculta seções da sidebar com efeito de blur para maior privacidade:
 ```
 geminiExtension/
 ├── manifest.json      # Configurações da extensão
-├── content.js         # Script injetado no Gemini
-├── styles.css         # Estilos CSS (blur, botões, etc.)
 ├── popup.html         # Interface do popup de configurações
 ├── popup.js           # Lógica do popup
+├── styles.css         # Estilos CSS globais
+├── src/               # Código fonte modularizado
+│   ├── config/        # Configurações e constantes
+│   ├── features/      # Funcionalidades (Botões, Sidebar, etc)
+│   ├── pageObjects/   # Seletores e abstração do DOM
+│   ├── states/        # Gerenciamento de estado
+│   └── utils/         # Funções utilitárias
 ├── README.md          # Este arquivo
-├── screenshots/       # Imagens de preview da extensão
-│   ├── blurPreview.png
-│   ├── buttonsPreview.png
-│   ├── modalPreview.png
-│   └── fastDeletePreview.png
-└── docs/
-    └── GEMINI_DOM_STRUCTURE.md  # Documentação da estrutura HTML do Gemini
+├── screenshots/       # Imagens de preview
+└── docs/              # Documentação técnica
 ```
 
 ---
@@ -81,17 +82,26 @@ geminiExtension/
 
 ![Popup de Configurações](screenshots/modalPreview.png)
 
-Clique no ícone da extensão para acessar as configurações:
+No topo do popup, você encontra botões de **Ação Rápida**:
+- **Padrão**: Restaura as configurações originais da extensão.
+- **Desligar Tudo**: Desativa todas as funcionalidades.
+- **Ligar Tudo**: Ativa todas as funcionalidades.
 
-| Opção | Descrição | Padrão |
-|-------|-----------|--------|
-| Extensão Ativada | Liga/desliga toda a extensão | ✅ Ativo |
-| Ocultar Meus Itens | Aplica blur na seção "Meus Itens" | ✅ Ativo |
-| Ocultar Gems | Aplica blur na seção "Gems" | ✅ Ativo |
-| Ocultar Histórico | Aplica blur no histórico de conversas | ✅ Ativo |
-| Limitar a 5 | Mostra apenas 5 conversas, blur nas demais | ✅ Ativo |
-| Exclusão Rápida | Botão de lixeira para deletar sem confirmação | ✅ Ativo |
-| Menu Sempre Visível | Mantém os 3 pontos sempre visíveis | ✅ Ativo |
+Abaixo, as opções detalhadas:
+
+| categoria | Opção | Descrição |
+|-----------|-------|-----------|
+| **Geral** | Botões Alternativos | Ativa os botões de troca rápida de modelo no topo |
+| | Iniciar Sidebar Fechada | Fecha a sidebar automaticamente ao carregar a página |
+| **Clean UI** | Esconder Saudação | Remove a mensagem "Olá, usuário" |
+| | Esconder Boas-vindas | Remove o texto de boas-vindas inicial |
+| | Esconder Sugestões | Remove os cards de sugestão de prompts |
+| **Visibilidade**| Esconder Histórico | Aplica blur/oculta a lista de conversas recentes |
+| | Limitar Histórico (5) | Exibe apenas os 5 itens mais recentes |
+| | Esconder Meus Itens | Oculta a seção "Meus Itens" |
+| | Esconder Gems | Oculta a seção "Gems" |
+| **Produtividade**| Exclusão Rápida | Adiciona ícone de lixeira para deletar sem confirmação |
+| | Menu Sempre Visível | Mantém o menu (3 pontos) sempre visível, sem precisar de hover |
 
 ---
 

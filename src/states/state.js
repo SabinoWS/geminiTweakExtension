@@ -108,7 +108,7 @@ chrome.storage.onChanged.addListener((changes) => {
         if (featureHistoryLimitEnabled) stateHistoryLimited = true;
         if (typeof applyVisualOneShot === 'function') applyVisualOneShot();
 
-        // Re-inject controls to update buttons (since layout might change)
+        // Re-add controls to update buttons (since layout might change)
         const controls = document.querySelector('.gemini-history-controls');
         if (controls) controls.remove();
         if (featureHistoryEnabled && typeof addLimitChatsControl === 'function') addLimitChatsControl();

@@ -32,7 +32,7 @@ A sidebar do Gemini contém as seguintes seções principais:
   <side-nav-entry-button>
     <button>
       <span>Meus itens</span>
-      <!-- Aqui injetamos .gemini-my-items-controls -->
+      <!-- Aqui adicionamos .gemini-my-items-controls -->
     </button>
   </side-nav-entry-button>
   
@@ -54,7 +54,7 @@ A sidebar do Gemini contém as seguintes seções principais:
   <side-nav-entry-button>
     <button>
       <span>Gems</span>
-      <!-- Aqui injetamos .gemini-gems-controls -->
+      <!-- Aqui adicionamos .gemini-gems-controls -->
     </button>
   </side-nav-entry-button>
   
@@ -80,7 +80,7 @@ Esta é a seção mais complexa:
   <!-- Título "Conversas" -->
   <div class="conversations-subtitle">
     <span>Conversas</span>
-    <!-- Aqui injetamos .gemini-history-controls (botões de olho e filtro) -->
+    <!-- Aqui adicionamos .gemini-history-controls (botões de olho e filtro) -->
   </div>
   
   <!-- Container principal das conversas -->
