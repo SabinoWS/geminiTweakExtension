@@ -20,7 +20,7 @@ function addLimitChatsControl() {
     const iconFilter = `<svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>`;
 
     // Inserir antes, se o botão hide já existir, ou dar append se não.
-    const btnLimit = createIconBtn('gemini-btn-limit-5', 'Mostrar apenas 5 recentes',
+    const btnLimit = createIconBtn('gemini-btn-limit-5', i18n('tooltip_limit_history'),
         iconFilter,
         (e) => {
             stateHistoryLimited = !stateHistoryLimited;

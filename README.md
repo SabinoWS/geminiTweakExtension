@@ -1,3 +1,5 @@
+[🇧🇷 Português](README.md) | [🇬🇧 English](README_en.md) | [🇪🇸 Español](README_es.md) | [🇨🇳 中文](README_zh.md)
+
 # 🔧 Gemini Tweak Extension
 
 Extensão do Chrome para personalizar a interface do **Google Gemini** com controles de privacidade e atalhos de produtividade.

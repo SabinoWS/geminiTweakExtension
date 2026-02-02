@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleAlwaysShowMenu = document.getElementById('toggleAlwaysShowMenu');
 
     // Carregar estado salvo
-    // Default = true (!== false)
     chrome.storage.local.get([
         'enabled',
         'featureHistoryHide',
@@ -16,17 +15,68 @@ document.addEventListener('DOMContentLoaded', () => {
         'featureMyItemsHide',
         'featureGemsHide',
         'featureQuickDelete',
-        'featureAlwaysShowMenu'
+        'featureAlwaysShowMenu',
+        'userLanguage'
     ], (result) => {
         toggleExt.checked = result.enabled !== false;
-
         toggleHistoryFeature.checked = result.featureHistoryHide !== false;
         toggleHistoryLimitFeature.checked = result.featureHistoryLimit !== false;
         toggleMyItemsFeature.checked = result.featureMyItemsHide !== false;
         toggleGemsFeature.checked = result.featureGemsHide !== false;
         toggleQuickDelete.checked = result.featureQuickDelete !== false;
         toggleAlwaysShowMenu.checked = result.featureAlwaysShowMenu !== false;
+
+        // Set Language
+        if (result.userLanguage) {
+            currentLanguage = result.userLanguage;
+        }
+        updateLanguageUI();
     });
+
+    // Language Handling
+    const langBtns = document.querySelectorAll('.lang-btn');
+    langBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.dataset.lang;
+            currentLanguage = lang;
+            chrome.storage.local.set({ userLanguage: lang });
+            updateLanguageUI();
+        });
+    });
+
+    function updateLanguageUI() {
+        // Update Buttons Active State
+        langBtns.forEach(btn => {
+            if (btn.dataset.lang === currentLanguage) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+
+        // Update Texts
+        setText('lbl_group_general', 'group_general');
+        setText('lbl_opt_alt_buttons', 'opt_alt_buttons');
+        setText('lbl_opt_sidebar_closed', 'opt_sidebar_closed');
+        setText('lbl_group_clean', 'group_clean');
+        setText('lbl_opt_hide_greeting', 'opt_hide_greeting');
+        setText('lbl_opt_hide_welcome', 'opt_hide_welcome');
+        setText('lbl_opt_hide_prompts', 'opt_hide_prompts');
+        setText('lbl_group_visibility', 'group_visibility');
+        setText('lbl_opt_hide_history', 'opt_hide_history');
+        setText('lbl_opt_limit_history', 'opt_limit_history');
+        setText('lbl_opt_hide_myitems', 'opt_hide_myitems');
+        setText('lbl_opt_hide_gems', 'opt_hide_gems');
+        setText('lbl_group_productivity', 'group_productivity');
+        setText('lbl_opt_quick_delete', 'opt_quick_delete');
+        setText('lbl_opt_always_menu', 'opt_always_menu');
+        setText('btnReset', 'btn_reset');
+        setText('btnAllOff', 'btn_all_off');
+        setText('btnAllOn', 'btn_all_on');
+        setText('link_github', 'link_github');
+    }
+
+    function setText(id, key) {
+        const el = document.getElementById(id);
+        if (el) el.innerText = i18n(key);
+    }
 
     // Salvar Toggle Extensão
     toggleExt.addEventListener('change', () => {
@@ -128,14 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
             featureStartSidebarClosed: true,
             featureHideGreeting: false, // Default False
             featureHideWelcome: true,
-            featureHidePrompts: true
+            featureHidePrompts: true,
+            userLanguage: 'pt-br' // Reset language to default
         });
+        currentLanguage = 'pt-br';
+        updateLanguageUI();
     });
 
     btnAllOff.addEventListener('click', () => {
         updateAll({
-            // enabled: true, // Keep extension enabled, just disable features? Or disable ext? 'Desligar Tudo' implies features off.
-            // If we disable 'enabled', it kills everything anyway. Let's keep enabled TRUE but features FALSE so user can selectively enable.
             featureHistoryHide: false,
             featureHistoryLimit: false,
             featureMyItemsHide: false,
@@ -153,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAll({
             enabled: true,
             featureHistoryHide: true,
-            featureHistoryLimit: true, // Limit toggled ON usually conflicts with Hide All? Logic handles it (Hide takes precedence).
+            featureHistoryLimit: true,
             featureMyItemsHide: true,
             featureGemsHide: true,
             featureQuickDelete: true,

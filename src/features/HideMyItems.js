@@ -14,7 +14,7 @@ function addMyItemsControls() {
         const btnHide = document.createElement('div');
         btnHide.className = 'gemini-history-btn gemini-my-items-controls';
         btnHide.innerHTML = iconEyeOff;
-        btnHide.title = 'Mostrar/Esconder Meus Itens';
+        btnHide.title = i18n('tooltip_show_hide_myitems');
         btnHide.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();

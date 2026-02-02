@@ -21,7 +21,7 @@ function addDeleteChatButtons() {
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'gemini-quick-delete-btn';
         deleteBtn.innerHTML = TRASH_ICON_SVG;
-        deleteBtn.title = 'Excluir conversa rapidamente';
+        deleteBtn.title = i18n('tooltip_quick_delete');
 
         // Handler de clique para exclusão rápida
         deleteBtn.addEventListener('click', async (e) => {
@@ -94,3 +94,12 @@ async function executeQuickDelete(container, conversationLink) {
 
     // Sucesso - o container será removido automaticamente pelo Gemini
 }
+
+function updateDeleteChatButtonsText() {
+    const btns = document.querySelectorAll('.gemini-quick-delete-btn');
+    btns.forEach(btn => {
+        btn.title = i18n('tooltip_quick_delete');
+    });
+}
+
+window.addEventListener('gemini-tweak-language-changed', updateDeleteChatButtonsText);

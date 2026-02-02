@@ -27,7 +27,7 @@ function addGemsControls() {
         const btnHide = document.createElement('span'); // Span
         btnHide.className = 'gemini-history-btn gemini-gems-controls';
         btnHide.innerHTML = iconEyeOff;
-        btnHide.title = 'Mostrar/Esconder Gems';
+        btnHide.title = i18n('tooltip_show_hide_gems');
         btnHide.style.marginLeft = '6px';
         btnHide.style.display = 'inline-flex';
         btnHide.style.verticalAlign = 'middle';

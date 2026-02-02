@@ -16,6 +16,7 @@
                 "https://gemini.google.com/*"
             ],
             "js": [
+                "src/utils/i18n.js",
                 "src/config/config.js",
                 "src/utils/utils.js",
                 "src/utils/visuals.js",

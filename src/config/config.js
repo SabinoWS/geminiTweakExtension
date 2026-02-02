@@ -3,9 +3,9 @@
  */
 
 const MODEL_OPTIONS = [
-    { id: 'bard-mode-option-rápido', label: 'Rápido', icon: '⚡' },
-    { id: 'bard-mode-option-raciocínio', label: 'Raciocínio', icon: '🧠' },
-    { id: 'bard-mode-option-pro', label: 'Pro', icon: '💎' }
+    { id: 'bard-mode-option-rápido', labelKey: 'model_rapid', icon: '⚡' },
+    { id: 'bard-mode-option-raciocínio', labelKey: 'model_reasoning', icon: '🧠' },
+    { id: 'bard-mode-option-pro', labelKey: 'model_pro', icon: '💎' }
 ];
 
 const ORIGINAL_SELECTOR_CLASS = '.input-area-switch';

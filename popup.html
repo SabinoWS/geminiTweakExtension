@@ -138,10 +138,65 @@
     .action-btn:hover {
       background: #5e615f;
     }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1e1f20;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #444746;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #5e615f;
+    }
+
+    /* Language Buttons */
+    .lang-container {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #444746;
+      padding-bottom: 12px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid #444746;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 2px 6px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .lang-btn:hover {
+      background: #444746;
+    }
+
+    .lang-btn.active {
+      background: #4e504e;
+      border-color: #8ab4f8;
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- Language Selection -->
+  <div class="lang-container">
+    <button class="lang-btn" data-lang="pt-br" title="Português">🇧🇷</button>
+    <button class="lang-btn" data-lang="es" title="Español">🇪🇸</button>
+    <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+    <button class="lang-btn" data-lang="zh" title="Chinese">🇨🇳</button>
+  </div>
 
   <div class="actions-container"
     style="margin-top: 0; margin-bottom: 15px; border-top: none; border-bottom: 1px solid #444746; padding-top: 0; padding-bottom: 12px;">
@@ -150,9 +205,9 @@
     <button id="btnAllOn" class="action-btn">Ligar Tudo</button>
   </div>
 
-  <div class="group-title" style="margin-top: 0;">Geral</div>
+  <div class="group-title" id="lbl_group_general" style="margin-top: 0;">Geral</div>
   <div class="container">
-    <h2>Botões Alternativos</h2>
+    <h2 id="lbl_opt_alt_buttons">Botões Alternativos</h2>
     <label class="switch">
       <input type="checkbox" id="toggleExt">
       <span class="slider"></span>
@@ -160,17 +215,17 @@
   </div>
 
   <div class="container">
-    <h2>Iniciar Sidebar Fechada</h2>
+    <h2 id="lbl_opt_sidebar_closed">Iniciar Sidebar Fechada</h2>
     <label class="switch">
       <input type="checkbox" id="toggleStartSidebarClosed">
       <span class="slider"></span>
     </label>
   </div>
 
-  <div class="group-title">Clean Interface</div>
+  <div class="group-title" id="lbl_group_clean">Clean Interface</div>
 
   <div class="container">
-    <h2>Esconder Saudação</h2>
+    <h2 id="lbl_opt_hide_greeting">Esconder Saudação</h2>
     <label class="switch">
       <input type="checkbox" id="toggleHideGreeting">
       <span class="slider"></span>
@@ -178,7 +233,7 @@
   </div>
 
   <div class="container">
-    <h2>Esconder Boas-vindas</h2>
+    <h2 id="lbl_opt_hide_welcome">Esconder Boas-vindas</h2>
     <label class="switch">
       <input type="checkbox" id="toggleHideWelcome">
       <span class="slider"></span>
@@ -186,17 +241,17 @@
   </div>
 
   <div class="container">
-    <h2>Esconder Sugestões</h2>
+    <h2 id="lbl_opt_hide_prompts">Esconder Sugestões</h2>
     <label class="switch">
       <input type="checkbox" id="toggleHidePrompts">
       <span class="slider"></span>
     </label>
   </div>
 
-  <div class="group-title">Visibilidade</div>
+  <div class="group-title" id="lbl_group_visibility">Visibilidade</div>
 
   <div class="container">
-    <h2>Esconder Histórico</h2>
+    <h2 id="lbl_opt_hide_history">Esconder Histórico</h2>
     <label class="switch">
       <input type="checkbox" id="toggleHistoryFeature">
       <span class="slider"></span>
@@ -204,7 +259,7 @@
   </div>
 
   <div class="container">
-    <h2>Limitar Histórico (5)</h2>
+    <h2 id="lbl_opt_limit_history">Limitar Histórico (5)</h2>
     <label class="switch">
       <input type="checkbox" id="toggleHistoryLimitFeature">
       <span class="slider"></span>
@@ -212,7 +267,7 @@
   </div>
 
   <div class="container">
-    <h2>Esconder Meus Itens</h2>
+    <h2 id="lbl_opt_hide_myitems">Esconder Meus Itens</h2>
     <label class="switch">
       <input type="checkbox" id="toggleMyItemsFeature">
       <span class="slider"></span>
@@ -220,17 +275,17 @@
   </div>
 
   <div class="container">
-    <h2>Esconder Gems</h2>
+    <h2 id="lbl_opt_hide_gems">Esconder Gems</h2>
     <label class="switch">
       <input type="checkbox" id="toggleGemsFeature">
       <span class="slider"></span>
     </label>
   </div>
 
-  <div class="group-title">Produtividade</div>
+  <div class="group-title" id="lbl_group_productivity">Produtividade</div>
 
   <div class="container">
-    <h2>Exclusão Rápida (Lixeira)</h2>
+    <h2 id="lbl_opt_quick_delete">Exclusão Rápida (Lixeira)</h2>
     <label class="switch">
       <input type="checkbox" id="toggleQuickDelete">
       <span class="slider"></span>
@@ -238,7 +293,7 @@
   </div>
 
   <div class="container">
-    <h2>Menu Sempre Visível (3 Pontos)</h2>
+    <h2 id="lbl_opt_always_menu">Menu Sempre Visível (3 Pontos)</h2>
     <label class="switch">
       <input type="checkbox" id="toggleAlwaysShowMenu">
       <span class="slider"></span>
@@ -248,10 +303,11 @@
 
 
 
-  <a href="https://github.com/SabinoWS/geminiTweakExtension" target="_blank" class="footer-link">
+  <a href="https://github.com/SabinoWS/geminiTweakExtension" target="_blank" class="footer-link" id="link_github">
     Ver no GitHub ↗
   </a>
 
+  <script src="src/utils/i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 

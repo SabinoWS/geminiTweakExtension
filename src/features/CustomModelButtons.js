@@ -18,7 +18,7 @@ function createButtons() {
         const btn = document.createElement('button');
         btn.className = 'gemini-model-btn';
         btn.innerHTML = `<span class="btn-icon">${opt.icon}</span>`;
-        btn.title = opt.label;
+        btn.title = i18n(opt.labelKey);
         btn.dataset.targetId = opt.id;
         btn.addEventListener('click', (e) => {
             if (!isExtensionEnabled) return;
@@ -113,3 +113,16 @@ function highlightModelButton(targetId) {
         }
     });
 }
+
+function updateModelButtonsText() {
+    const btns = document.querySelectorAll('.gemini-model-btn');
+    btns.forEach(btn => {
+        const targetId = btn.dataset.targetId;
+        const opt = MODEL_OPTIONS.find(o => o.id === targetId);
+        if (opt) {
+            btn.title = i18n(opt.labelKey);
+        }
+    });
+}
+
+window.addEventListener('gemini-tweak-language-changed', updateModelButtonsText);
