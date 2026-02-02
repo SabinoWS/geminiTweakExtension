@@ -12,6 +12,11 @@ let featureQuickDeleteEnabled = true;
 let featureAlwaysShowMenuEnabled = true;
 let featureStartSidebarClosedEnabled = true;
 
+// Clean Interface Features
+let featureHideGreetingEnabled = false; // Default false
+let featureHideWelcomeEnabled = true;
+let featureHidePromptsEnabled = true;
+
 let stateHistoryHidden = true;
 let stateHistoryLimited = true; // Default limited to 5
 let stateMyItemsHidden = true;
@@ -26,7 +31,10 @@ chrome.storage.local.get([
     'featureGemsHide',
     'featureQuickDelete',
     'featureAlwaysShowMenu',
-    'featureStartSidebarClosed'
+    'featureStartSidebarClosed',
+    'featureHideGreeting',
+    'featureHideWelcome',
+    'featureHidePrompts'
 ], (result) => {
     isExtensionEnabled = result.enabled !== false;
 
@@ -37,6 +45,11 @@ chrome.storage.local.get([
     featureQuickDeleteEnabled = result.featureQuickDelete !== false;
     featureAlwaysShowMenuEnabled = result.featureAlwaysShowMenu !== false;
     featureStartSidebarClosedEnabled = result.featureStartSidebarClosed !== false;
+
+    // Clean Interface defaults = true (except Greeting)
+    featureHideGreetingEnabled = result.featureHideGreeting === true;
+    featureHideWelcomeEnabled = result.featureHideWelcome !== false;
+    featureHidePromptsEnabled = result.featureHidePrompts !== false;
 
     // Funções definidas em visuals.js e features/
     if (typeof updateBodyClass === 'function') {
@@ -148,8 +161,19 @@ chrome.storage.onChanged.addListener((changes) => {
     // Feature: Start Sidebar Closed
     if (changes.featureStartSidebarClosed) {
         featureStartSidebarClosedEnabled = changes.featureStartSidebarClosed.newValue;
-        // Não aplicamos visualOneShot aqui pois é uma feature de "Start" (refresh necessário ou apenas na próxima carga)
-        // Mas se quisermos forçar, podemos chamar a função de verificação.
-        // Por ora, apenas atualiza a variável.
+    }
+
+    // Features: Clean Interface
+    if (changes.featureHideGreeting) {
+        featureHideGreetingEnabled = changes.featureHideGreeting.newValue;
+        if (typeof applyVisualOneShot === 'function') applyVisualOneShot();
+    }
+    if (changes.featureHideWelcome) {
+        featureHideWelcomeEnabled = changes.featureHideWelcome.newValue;
+        if (typeof applyVisualOneShot === 'function') applyVisualOneShot();
+    }
+    if (changes.featureHidePrompts) {
+        featureHidePromptsEnabled = changes.featureHidePrompts.newValue;
+        if (typeof applyVisualOneShot === 'function') applyVisualOneShot();
     }
 });

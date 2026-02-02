@@ -157,6 +157,25 @@ body.gemini-ext-enabled .input-area-switch {
   display: none !important;
 }
 
+/* Clean Interface Features */
+body.gemini-ext-enabled.gemini-hide-greeting h1.gds-headline-s,
+body.gemini-ext-enabled.gemini-hide-greeting .primary-message-visible,
+body.gemini-ext-enabled.gemini-hide-greeting vkb-greeting {
+    display: none !important;
+}
+
+body.gemini-ext-enabled.gemini-hide-welcome h1.gds-display-s,
+body.gemini-ext-enabled.gemini-hide-welcome .message-text,
+body.gemini-ext-enabled.gemini-hide-welcome .subtitle {
+    display: none !important;
+}
+
+body.gemini-ext-enabled.gemini-hide-prompts .card-zero-state,
+body.gemini-ext-enabled.gemini-hide-prompts intent-card,
+body.gemini-ext-enabled.gemini-hide-prompts .cards-container,
+body.gemini-ext-enabled.gemini-hide-prompts zero-state-suggestions {
+    display: none !important;
+}
 /* Esconde apenas o botão de enviar, não o de stop */
 /* O botão de stop tem o ícone 'stop' enquanto o de enviar tem 'send' */
 body.gemini-ext-enabled .gemini-hidden-send-button:has([data-mat-icon-name="send"]) {

@@ -43,6 +43,11 @@ function applyVisualOneShot() {
         document.body.classList.remove('gemini-always-show-menu');
     }
 
+    // Clean Interface
+    updateBodyClass('gemini-hide-greeting', featureHideGreetingEnabled);
+    updateBodyClass('gemini-hide-welcome', featureHideWelcomeEnabled);
+    updateBodyClass('gemini-hide-prompts', featureHidePromptsEnabled);
+
     updateButtonStates();
 }
 

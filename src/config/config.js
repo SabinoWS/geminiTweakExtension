@@ -10,6 +10,12 @@ const MODEL_OPTIONS = [
 
 const ORIGINAL_SELECTOR_CLASS = '.input-area-switch';
 
+const SELECTORS = {
+    GREETING: 'h1.gds-headline-s, .primary-message-visible',
+    WELCOME_MESSAGE: 'h1.gds-display-s, .message-text',
+    SUGGESTION_CHIPS: '.card-zero-state, intent-card, .cards-container' // Abrangente
+};
+
 
 
 

@@ -40,7 +40,7 @@ function handleStartSidebarClosed() {
         }
 
         // Aumentar tentativas pois o carregamento pode ser lento
-        if (attempts >= 40) { // ~20 segundos (40 * 500ms)
+        if (attempts >= 60) { // ~30 segundos (60 * 500ms)
             clearInterval(intervalId);
             console.log('[Gemini Tweak] Sidebar button not found after timeout.');
         }

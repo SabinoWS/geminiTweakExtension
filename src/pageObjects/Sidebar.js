@@ -101,31 +101,24 @@ const SidebarPage = {
     },
 
     isSidebarOpen: function (btn) {
-        // Método 1: Verificar se existe um container de navegação expandido
-        // O Gemini costuma usar <side-nav> ou classes como 'side-nav-open' no app
-        const sideNav = document.querySelector('side-nav, mat-sidenav, .side-nav');
+        // Método 1: Verificar se existe um container <bard-sidenav> expandido
+        const sideNav = document.querySelector('bard-sidenav, mat-sidenav, .side-nav');
         if (sideNav) {
-            // Se tiver largura > 100px, provavelmente está aberta
-            if (sideNav.getBoundingClientRect().width > 100) return true;
+            // Se tiver largura > 50px, está aberta (fechada a largura é muito pequena ou zero)
+            if (sideNav.getBoundingClientRect().width > 50) return true;
         }
 
         // Método 2: Verificar se a lista de conversas recentes está visível
-        // Quando fechado, o histórico consome espaço ou desaparece?
-        // Geralmente quando fechado, o menu vira apenas ícones ou some total.
+        // O título "Conversas" ou "Recentes" só aparece quando expandido
         const historyLabel = this.getHistoryLabel();
         if (historyLabel && historyLabel.offsetParent !== null) return true;
 
-        // Método 3: Fallback para aria-expanded (caso eles voltem a usar)
-        if (btn && btn.getAttribute('aria-expanded') === 'true') return true;
+        // Método 3: Fallback para classes no elemento raiz do app
+        // <chat-app class="side-nav-open"> é um padrão comum
+        const chatApp = document.querySelector('chat-app');
+        if (chatApp && chatApp.classList.contains('side-nav-open')) return true;
 
-        // Método 4 (Empírico): Se não achei nada "aberto", assumo fechado? 
-        // Ou melhor, assumir aberto se não tenho certeza para evitar fechar sem querer?
-        // Vamos verificar se existe algum texto de menu visível
-        const menuTexts = document.querySelectorAll('.gds-label-l, .clickable-label');
-        for (const t of menuTexts) {
-            if (t.offsetParent !== null) return true;
-        }
-
+        // Se não conseguiu confirmar aberto, assume fechado.
         return false;
     }
 };
