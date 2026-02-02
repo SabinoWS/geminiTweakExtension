@@ -32,6 +32,10 @@ const observer = new MutationObserver((mutations) => {
     if (typeof addMyItemsControls === 'function') addMyItemsControls();
     if (typeof addGemsControls === 'function') addGemsControls();
     if (typeof addDeleteChatButtons === 'function') addDeleteChatButtons();
+    // Start Sidebar Closed logic is handled via state.js initialization mostly, 
+    // but if we want to re-run on specific conditions or late loading:
+    // (Usually handleStartSidebarClosed handles its own single-execution)
+    if (typeof handleStartSidebarClosed === 'function') handleStartSidebarClosed();
 });
 
 observer.observe(document.body, { childList: true, subtree: true });

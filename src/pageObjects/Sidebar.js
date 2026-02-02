@@ -90,5 +90,42 @@ const SidebarPage = {
             return section.querySelector('.bots-list-container, .list-container, .items-container');
         }
         return null;
+    },
+
+    getToggleButton: function () {
+        // Selector confirmado via inspeção: data-test-id="side-nav-menu-button"
+        // Classes comuns: main-menu-button
+        const exactMatch = document.querySelector('button[data-test-id="side-nav-menu-button"]');
+        if (exactMatch) return exactMatch;
+        return document.querySelector('button[aria-label="Menu principal"], button.main-menu-button');
+    },
+
+    isSidebarOpen: function (btn) {
+        // Método 1: Verificar se existe um container de navegação expandido
+        // O Gemini costuma usar <side-nav> ou classes como 'side-nav-open' no app
+        const sideNav = document.querySelector('side-nav, mat-sidenav, .side-nav');
+        if (sideNav) {
+            // Se tiver largura > 100px, provavelmente está aberta
+            if (sideNav.getBoundingClientRect().width > 100) return true;
+        }
+
+        // Método 2: Verificar se a lista de conversas recentes está visível
+        // Quando fechado, o histórico consome espaço ou desaparece?
+        // Geralmente quando fechado, o menu vira apenas ícones ou some total.
+        const historyLabel = this.getHistoryLabel();
+        if (historyLabel && historyLabel.offsetParent !== null) return true;
+
+        // Método 3: Fallback para aria-expanded (caso eles voltem a usar)
+        if (btn && btn.getAttribute('aria-expanded') === 'true') return true;
+
+        // Método 4 (Empírico): Se não achei nada "aberto", assumo fechado? 
+        // Ou melhor, assumir aberto se não tenho certeza para evitar fechar sem querer?
+        // Vamos verificar se existe algum texto de menu visível
+        const menuTexts = document.querySelectorAll('.gds-label-l, .clickable-label');
+        for (const t of menuTexts) {
+            if (t.offsetParent !== null) return true;
+        }
+
+        return false;
     }
 };

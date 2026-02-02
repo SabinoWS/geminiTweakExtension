@@ -57,4 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleAlwaysShowMenu.addEventListener('change', () => {
         chrome.storage.local.set({ featureAlwaysShowMenu: toggleAlwaysShowMenu.checked });
     });
+
+    const toggleStartSidebarClosed = document.getElementById('toggleStartSidebarClosed');
+    // Load
+    chrome.storage.local.get(['featureStartSidebarClosed'], (r) => {
+        toggleStartSidebarClosed.checked = r.featureStartSidebarClosed !== false;
+    });
+    // Save
+    toggleStartSidebarClosed.addEventListener('change', () => {
+        chrome.storage.local.set({ featureStartSidebarClosed: toggleStartSidebarClosed.checked });
+    });
 });

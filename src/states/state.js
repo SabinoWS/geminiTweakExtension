@@ -10,6 +10,7 @@ let featureMyItemsEnabled = false;
 let featureGemsEnabled = false;
 let featureQuickDeleteEnabled = true;
 let featureAlwaysShowMenuEnabled = true;
+let featureStartSidebarClosedEnabled = true;
 
 let stateHistoryHidden = true;
 let stateHistoryLimited = true; // Default limited to 5
@@ -24,7 +25,8 @@ chrome.storage.local.get([
     'featureMyItemsHide',
     'featureGemsHide',
     'featureQuickDelete',
-    'featureAlwaysShowMenu'
+    'featureAlwaysShowMenu',
+    'featureStartSidebarClosed'
 ], (result) => {
     isExtensionEnabled = result.enabled !== false;
 
@@ -34,6 +36,7 @@ chrome.storage.local.get([
     featureGemsEnabled = result.featureGemsHide !== false;
     featureQuickDeleteEnabled = result.featureQuickDelete !== false;
     featureAlwaysShowMenuEnabled = result.featureAlwaysShowMenu !== false;
+    featureStartSidebarClosedEnabled = result.featureStartSidebarClosed !== false;
 
     // Funções definidas em visuals.js e features/
     if (typeof updateBodyClass === 'function') {
@@ -42,6 +45,7 @@ chrome.storage.local.get([
 
     if (isExtensionEnabled) {
         if (typeof addModelButtons === 'function') addModelButtons();
+        if (typeof handleStartSidebarClosed === 'function') handleStartSidebarClosed(); // Chamada da nova feature
 
         // Tentar sincronizar modelo do DOM primeiro, depois do storage como fallback
         setTimeout(() => {
@@ -139,5 +143,13 @@ chrome.storage.onChanged.addListener((changes) => {
     if (changes.featureAlwaysShowMenu) {
         featureAlwaysShowMenuEnabled = changes.featureAlwaysShowMenu.newValue;
         if (typeof applyVisualOneShot === 'function') applyVisualOneShot();
+    }
+
+    // Feature: Start Sidebar Closed
+    if (changes.featureStartSidebarClosed) {
+        featureStartSidebarClosedEnabled = changes.featureStartSidebarClosed.newValue;
+        // Não aplicamos visualOneShot aqui pois é uma feature de "Start" (refresh necessário ou apenas na próxima carga)
+        // Mas se quisermos forçar, podemos chamar a função de verificação.
+        // Por ora, apenas atualiza a variável.
     }
 });

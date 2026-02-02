@@ -29,6 +29,7 @@
                 "src/features/LimitChats.js",
                 "src/features/HideMyItems.js",
                 "src/features/DeleteChat.js",
+                "src/features/SidebarControl.js",
                 "src/states/state.js",
                 "src/features/Main.js"
             ],

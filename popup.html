@@ -97,6 +97,22 @@
       color: #aaa;
       text-align: center;
     }
+
+    .footer-link {
+      display: block;
+      margin-top: 15px;
+      text-align: center;
+      font-size: 11px;
+      color: #8ab4f8;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .footer-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
   </style>
 </head>
 
@@ -107,6 +123,14 @@
     <h2>Botões Alternativos</h2>
     <label class="switch">
       <input type="checkbox" id="toggleExt">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="container">
+    <h2>Iniciar Sidebar Fechada</h2>
+    <label class="switch">
+      <input type="checkbox" id="toggleStartSidebarClosed">
       <span class="slider"></span>
     </label>
   </div>
@@ -162,6 +186,13 @@
       <span class="slider"></span>
     </label>
   </div>
+
+
+  </div>
+
+  <a href="https://github.com/SabinoWS/geminiTweakExtension" target="_blank" class="footer-link">
+    Ver no GitHub ↗
+  </a>
 
   <script src="popup.js"></script>
 </body>
