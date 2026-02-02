@@ -16,7 +16,21 @@
                 "https://gemini.google.com/*"
             ],
             "js": [
-                "content.js"
+                "src/config/config.js",
+                "src/utils/utils.js",
+                "src/utils/visuals.js",
+                "src/pageObjects/Sidebar.js",
+                "src/pageObjects/ChatInterface.js",
+                "src/pageObjects/ChatList.js",
+                "src/pageObjects/Dialogs.js",
+                "src/features/CustomModelButtons.js",
+                "src/features/HideGems.js",
+                "src/features/HideChats.js",
+                "src/features/LimitChats.js",
+                "src/features/HideMyItems.js",
+                "src/features/DeleteChat.js",
+                "src/states/state.js",
+                "src/features/Main.js"
             ],
             "css": [
                 "styles.css"
